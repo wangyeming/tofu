@@ -169,9 +169,10 @@ class GeneralPanel {
         try {
             await Settings.save(settings);
             const service = await Service.getInstance();
-            await Service.getInstance().loadSettings();
+            await service.loadSettings();
             Notification.show('保存成功');
         } catch (e) {
+            console.log("保存失败", e)
             Notification.show('保存失败', {type: 'danger'});
         }
     }
