@@ -37,6 +37,7 @@ export default class Service extends EventTarget {
         this._jobQueue = new AsyncBlockingQueue();
         this._status = Service.STATE_STOPPED;
         this.lastRequest = 0;
+        this._debug = false;
         chrome.runtime.onConnect.addListener(port => this.onConnect(port));
     }
 
@@ -101,7 +102,8 @@ export default class Service extends EventTarget {
      * @param {boolean} value
      */
     set debug(value) {
-        if (this._debug === !!value) {
+        this._debug = value;
+        if (this._debug) {
             let logger = this.logger;
             logger.level = logger.LEVEL_DEBUG;
             logger.addEventListener('log', event => {
@@ -373,6 +375,7 @@ export default class Service extends EventTarget {
                 console.log("🆕 创建新的 Service 实例...");
                 Service._instance = new Service();
             }
+            await Service._instance.loadSettings()
             Service.startup();
             await Service._instance.start();
         }
@@ -399,7 +402,7 @@ export default class Service extends EventTarget {
             this.lastRequest = restoredService.lastRequest;
             this._debug = restoredService._debug;
 
-            console.log('Service 状态已恢复');
+            console.log(`Service 状态已恢复`);
         }
     }
 
@@ -413,7 +416,7 @@ export default class Service extends EventTarget {
         const RUN_FOREVER = true;
 
         let service = await Service.getInstance();
-        await service.loadSettings();
+        // await service.loadSettings();
         let logger = service.logger;
 
         let lastRequest = 0;
