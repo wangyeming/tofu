@@ -10,6 +10,14 @@ fork 自 [doufen-org tofu](https://github.com/doufen-org/tofu) 项目，因为�
 
 ## 更新日志
 
+### V0.12.2
+
+修复'输出调试信息'功能失败的问题
+
+### V0.12.1
+
+修复了保存设置失败的bug
+
 ### V0.12.0
 
 由于chrome浏览器个人用户已经完全淘汰manifest V2，老插件已经无法使用，升级支持manifest V3。
